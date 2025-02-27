@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- f5f2f0-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="prism.css" />
+	
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism.min.css" rel="stylesheet" /> 
+    <style>
+        code[class*=language-],pre[class*=language-]
+        {color:#eee1e1;background:0 0;text-shadow:none;
+        font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;
+        font-size:1em;font-weight: 700; text-align:left;
+        white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;
+        line-height:1.5;-moz-tab-size:4;-o-tab-size:4;
+        tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}
+        code[class*=language-] ::-moz-selection,
+        code[class*=language-]::-moz-selection,
+        pre[class*=language-] ::-moz-selection,
+        pre[class*=language-]::-moz-selection
+        {text-shadow:none;background:#060606}
+        code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection
+        {text-shadow:none;background:#000408}
+        @media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}
+        pre[class*=language-]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]
+        {background:#000000}:not(pre)>code[class*=language-]
+        {padding:.1em;border-radius:.3em;white-space:normal}.token.cdata,.token.doctype,.token.prolog
+        {color:#000408}.token.punctuation{color:#f1ee3d}.token.namespace{opacity:.9}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag
+        {color:rgb(131, 250, 131)}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string,.token.comment
+        {color:#690}.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url
+        {color:#9a6e3a;background:hsla(0, 0%, 5%, 0.5)}.token.atrule,.token.attr-value,.token.keyword
+        {color:rgb(51, 123, 246)}.token.class-name,.token.function
+        {color:#fc2d56}.token.important,.token.regex,.token.variable
+        {color:rgb(249, 192, 86)}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style> -->
+    <script src="prism.js"></script>
+    <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script> -->
+</head>
+<body>
+    <!-- <pre><code class="language-python">&#13;<span class="token keyword">import</span> math&#13;&#13;def <span class="token function">area_of_circle</span><span class="token punctuation">(</span>radius<span class="token punctuation">)</span><span class="token operator">:</span>&#13;    <span class="token keyword">return</span> math<span class="token punctuation">.</span>pi <span class="token operator">*</span> radius <span class="token operator">**</span> <span class="token number">2</span>&#13;&#13;# Example usage&#13;radius <span class="token operator">=</span> <span class="token number">5</span>&#13;area <span class="token operator">=</span> <span class="token function">area_of_circle</span><span class="token punctuation">(</span>radius<span class="token punctuation">)</span>&#13;<span class="token function">print</span><span class="token punctuation">(</span>f<span class="token string">"The area of the circle with radius {radius} is {area}"</span><span class="token punctuation">)</span>&#13;</code></pre> -->
+    <div class="main-container">
+        <div class="nav-container">
+            <h3>Agent Services</h3>
+            <ul>
+                <li><a href="#">Overview</a></li>
+                <li><a href="#">Playground</a></li>
+                <li><a href="#" onclick="showEditor()">Prompts</a></li>
+                <li><a href="#">M4</a></li>
+            </ul>
+        </div>
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2>Greg's AI Playground</h2>
+                <div class="header-buttons">
+                    <button onclick="clearChatHistory()" class="clear-btn">🗑️</button>
+                    <button onclick="toggleSettings()" class="settings-btn">⚙️</button>
+                    <button onclick="renderLatex()" class="settings-btn">Latex</button>
+                </div>&nbsp;&nbsp;
+                <div class="model-selection">
+                    <label for="model">Model:</label>
+                    <select id="model">
+                        <option value="o1-mini">o1-mini</option>
+                        <option value="gpt-4o-greg">gpt-4o</option>
+                        <option value="deepseek-0128-12">R1</option>
+                        <option value="gpt-4o-mini">gpt-4o-mini</option>
+                        <option value="ollama">local ollama</option>
+                        <option value="o1">o1 (broken)</option>
+                    </select>
+                </div>
+            </div>
+            <div id="chat-box" class="chat-box"></div>
+            <form id="chat-form">
+                <input type="file" id="file-input">
+                <label for="file-input" id="file-label"><i class="fas fa-paperclip"></i></label>
+                <span id="file-name"></span> <!-- Added span to display file name -->
+                <textarea id="message-input" placeholder="Type a message..."></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+        <div id="debug-panel" class="debug-panel" style="display: none;">
+            <h3>Debug Panel</h3>
+            <pre id="debug-output"></pre>
+        </div>
+    </div>
+    <div id="editor-panel" style="display: none;">
+        <h3>Editor</h3>
+        <input type="text" id="name" placeholder="Enter your name">
+        <textarea id="editor-content" placeholder="Type your prompt here..."></textarea>
+        <div class="editor-buttons">
+            <button onclick="saveFile()">Save</button>
+            <button onclick="hideEditor()">Cancel</button>
+        </div>
+    </div>
+    <div id="settings-panel" style="display: none;">
+        <h3>AI Settings</h3>
+        <div>
+            <label for="temperature">Temperature (0-1):</label>
+            <input type="number" id="temperature" min="0" max="1" step="0.1" value="0.1">
+        </div>
+        <div>
+            <label for="max-tokens">Max Tokens:</label>
+            <input type="number" id="max-tokens" min="100" max="16000" step="100" value="15000">
+        </div>
+        <div>
+            <label for="system-prompt">System Prompt:</label>
+            <textarea id="system-prompt">You are a highly intelligent reasoning agent.  
+                You use detailed chain of thought to think through problems. 
+                when you return code blocks, you always put the code inside three backticks.
+                Do not include the langauge type inside the code block because the code block must execute as written.  
+                For example '''# print response\nprint("Hello, World!")'''
+            </textarea>
+        </div>
+        <button onclick="saveSettings()">Save Settings</button>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

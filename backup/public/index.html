@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="nav-container">
+            <h3>Agent Services</h3>
+            <ul>
+                <li><a href="#">Overview</a></li>
+                <li><a href="#">Playground</a></li>
+                <li><a href="#" onclick="showEditor()">Prompts</a></li>
+                <li><a href="#">M4</a></li>
+            </ul>
+        </div>
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2>Greg's AI Playground</h2>
+                <div class="header-buttons">
+                    <button onclick="clearChatHistory()" class="clear-btn">🗑️</button>
+                    <button onclick="toggleSettings()" class="settings-btn">⚙️</button>
+                </div>
+            </div>
+            <div id="chat-box" class="chat-box"></div>
+            <form id="chat-form">
+                <input type="file" id="file-input">
+                <label for="file-input" id="file-label"><i class="fas fa-paperclip"></i></label>
+                <span id="file-name"></span> <!-- Added span to display file name -->
+                <textarea id="message-input" placeholder="Type a message..."></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+        <div id="debug-panel" class="debug-panel" style="display: none;">
+            <h3>Debug Panel</h3>
+            <pre id="debug-output"></pre>
+        </div>
+    </div>
+    <div id="editor-panel" style="display: none;">
+        <h3>Editor</h3>
+        <textarea id="editor-content" placeholder="Type your prompt here..."></textarea>
+        <div class="editor-buttons">
+            <button onclick="saveFile()">Save</button>
+            <button onclick="hideEditor()">Cancel</button>
+        </div>
+    </div>
+    <div id="settings-panel" style="display: none;">
+        <h3>AI Settings</h3>
+        <div>
+            <label for="temperature">Temperature (0-1):</label>
+            <input type="number" id="temperature" min="0" max="1" step="0.1" value="0.1">
+        </div>
+        <div>
+            <label for="max-tokens">Max Tokens:</label>
+            <input type="number" id="max-tokens" min="100" max="16000" step="100" value="15000">
+        </div>
+        <div>
+            <label for="model">Model:</label>
+            <select id="model">
+                <option value="gpt-4o-greg">gpt-4o-greg</option>
+                <option value="o1">o1</option>
+                <option value="gpt-4o-mini">gpt-4o-mini</option>
+            </select>
+        </div>
+        <div>
+            <label for="system-prompt">System Prompt:</label>
+            <textarea id="system-prompt" placeholder="Enter system prompt"></textarea>
+        </div>
+        <button onclick="saveSettings()">Save Settings</button>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
